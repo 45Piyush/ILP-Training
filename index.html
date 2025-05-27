@@ -1,413 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Portal - Registration</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --danger: #f72585;
-        }
+      :root {
+        --primary: #4361ee;
+        --secondary: #3f37c9;
+        --success: #4cc9f0;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --danger: #f72585;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
 
+      .container {
+        width: 100%;
+        max-width: 800px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        transition: all 0.3s ease;
+      }
+
+      .illustration {
+        flex: 1;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        color: white;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .illustration h2 {
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .illustration img {
+        width: 100%;
+        max-width: 250px;
+        margin-bottom: 20px;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .form-container {
+        flex: 1;
+        padding: 40px;
+        transition: all 0.3s ease;
+      }
+
+      .form-header {
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .form-header h1 {
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-size: 28px;
+      }
+
+      .form-header p {
+        color: #666;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        outline: none;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .btn:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .switch-form {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+      }
+
+      .switch-form a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .switch-form a:hover {
+        text-decoration: underline;
+      }
+
+      .success-message {
+        display: none;
+        text-align: center;
+        padding: 40px;
+      }
+
+      .success-message h2 {
+        color: var(--primary);
+        margin-bottom: 20px;
+      }
+
+      .success-message .icon {
+        font-size: 60px;
+        color: #4caf50;
+        margin-bottom: 20px;
+        animation: bounce 0.5s;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .user-details {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .user-details p {
+        margin-bottom: 10px;
+      }
+
+      .user-details span {
+        font-weight: 500;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
         .container {
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            transition: all 0.3s ease;
+          flex-direction: column;
         }
-
         .illustration {
-            flex: 1;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            color: white;
-            text-align: center;
-            transition: all 0.3s ease;
+          padding: 30px 20px;
         }
-
-        .illustration h2 {
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
         .illustration img {
-            width: 100%;
-            max-width: 250px;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+          max-width: 150px;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
         .form-container {
-            flex: 1;
-            padding: 40px;
-            transition: all 0.3s ease;
+          padding: 30px;
         }
+      }
 
-        .form-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+      /* Toggle between forms */
+      .login-form,
+      .register-form {
+        display: none;
+      }
+      .active-form {
+        display: block;
+        animation: fadeIn 0.5s;
+      }
 
-        .form-header h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 28px;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-
-        .form-header p {
-            color: #666;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-            outline: none;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .switch-form {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-
-        .switch-form a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .switch-form a:hover {
-            text-decoration: underline;
-        }
-
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .success-message h2 {
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .success-message .icon {
-            font-size: 60px;
-            color: #4CAF50;
-            margin-bottom: 20px;
-            animation: bounce 0.5s;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
-        }
-
-        .user-details {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .user-details p {
-            margin-bottom: 10px;
-        }
-
-        .user-details span {
-            font-weight: 500;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .illustration {
-                padding: 30px 20px;
-            }
-            .illustration img {
-                max-width: 150px;
-            }
-            .form-container {
-                padding: 30px;
-            }
-        }
-
-        /* Toggle between forms */
-        .login-form, .register-form {
-            display: none;
-        }
-        .active-form {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="illustration">
-            <img src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" alt="Travel Illustration">
-            <h2>Welcome to Travel Portal</h2>
-            <p>Join thousands of happy travelers exploring the world</p>
+      <div class="illustration">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png"
+          alt="Travel Illustration"
+        />
+        <h2>Welcome to Travel Portal</h2>
+        <p>Join thousands of happy travelers exploring the world</p>
+      </div>
+
+      <div class="form-container">
+        <!-- Home Screen -->
+        <div id="home-screen" class="active-form">
+          <div class="form-header">
+            <h1>Welcome Back!</h1>
+            <p>Please choose an option to continue</p>
+          </div>
+          <button id="register-btn" class="btn" style="margin-bottom: 15px">
+            Create New Account
+          </button>
+          <button
+            id="login-btn"
+            class="btn"
+            style="
+              background: var(--light);
+              color: var(--primary);
+              border: 2px solid var(--primary);
+            "
+          >
+            Sign In
+          </button>
         </div>
 
-        <div class="form-container">
-            <!-- Home Screen -->
-            <div id="home-screen" class="active-form">
-                <div class="form-header">
-                    <h1>Welcome Back!</h1>
-                    <p>Please choose an option to continue</p>
-                </div>
-                <button id="register-btn" class="btn" style="margin-bottom: 15px;">
-                    Create New Account
-                </button>
-                <button id="login-btn" class="btn" style="background: var(--light); color: var(--primary); border: 2px solid var(--primary);">
-                    Sign In
-                </button>
+        <!-- Registration Form -->
+        <div id="register-form" class="register-form">
+          <div class="form-header">
+            <h1>Create Account</h1>
+            <p>Fill in your details to get started</p>
+          </div>
+          <form id="registration-form">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                class="form-control"
+                placeholder="Enter username (max 50 chars)"
+                maxlength="50"
+                required
+              />
             </div>
-
-            <!-- Registration Form -->
-            <div id="register-form" class="register-form">
-                <div class="form-header">
-                    <h1>Create Account</h1>
-                    <p>Fill in your details to get started</p>
-                </div>
-                <form id="registration-form">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" class="form-control" placeholder="Enter username (max 50 chars)" maxlength="50" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" placeholder="Enter password (max 30 chars)" maxlength="30" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <textarea id="address" class="form-control" rows="3" placeholder="Enter your street and city (max 100 chars)" maxlength="100" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">Contact Number</label>
-                        <input type="tel" id="contact" class="form-control" placeholder="Enter contact number (max 10 digits)" maxlength="10" required>
-                    </div>
-                    <button type="submit" class="btn">Register</button>
-                </form>
-                <div class="switch-form">
-                    Already have an account? <a href="#" id="switch-to-login">Sign In</a>
-                </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+              />
             </div>
-
-            <!-- Login Form -->
-            <div id="login-form" class="login-form">
-                <div class="form-header">
-                    <h1>Welcome Back!</h1>
-                    <p>Sign in to continue your journey</p>
-                </div>
-                <form id="login-form-data">
-                    <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Password</label>
-                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="btn">Sign In</button>
-                </form>
-                <div class="switch-form">
-                    Don't have an account? <a href="#" id="switch-to-register">Register</a>
-                </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Enter password (max 30 chars)"
+                maxlength="30"
+                required
+              />
             </div>
-
-            <!-- Success Message -->
-            <div id="success-message" class="success-message">
-                <div class="icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h2>Registration Successful!</h2>
-                <p style="color: #4CAF50;">User Registration successful.</p>
-                <div class="user-details">
-                    <p><span>User ID:</span> <span id="user-id"></span></p>
-                    <p><span>Username:</span> <span id="display-username"></span></p>
-                    <p><span>Email:</span> <span id="display-email"></span></p>
-                </div>
-                <button id="go-to-login" class="btn" style="margin-top: 20px;">Proceed to Login</button>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea
+                id="address"
+                class="form-control"
+                rows="3"
+                placeholder="Enter your street and city (max 100 chars)"
+                maxlength="100"
+                required
+              ></textarea>
             </div>
+            <div class="form-group">
+              <label for="contact">Contact Number</label>
+              <input
+                type="tel"
+                id="contact"
+                class="form-control"
+                placeholder="Enter contact number (max 10 digits)"
+                maxlength="10"
+                required
+              />
+            </div>
+            <button type="submit" class="btn">Register</button>
+          </form>
+          <div class="switch-form">
+            Already have an account?
+            <a href="#" id="switch-to-login">Sign In</a>
+          </div>
         </div>
+
+        <!-- Login Form - CORRECTED STRUCTURE -->
+        <div id="login-form" class="login-form">
+          <div class="form-header">
+            <h1>Welcome Back!</h1>
+            <p>Sign in to continue your journey</p>
+          </div>
+          <form id="login-form-data">
+            <div class="form-group">
+              <label for="login-userid">User ID</label>
+              <input
+                type="text"
+                id="login-userid"
+                class="form-control"
+                placeholder="Enter your User ID"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input
+                type="password"
+                id="login-password"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+          </form>
+          <div class="switch-form">
+            Don't have an account?
+            <a href="#" id="switch-to-register">Register</a>
+          </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-message" class="success-message">
+          <div class="icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2>Registration Successful!</h2>
+          <p style="color: #4caf50">User Registration successful.</p>
+          <div class="user-details">
+            <p><span>User ID:</span> <span id="user-id"></span></p>
+            <p><span>Username:</span> <span id="display-username"></span></p>
+            <p><span>Email:</span> <span id="display-email"></span></p>
+          </div>
+          <button id="go-to-login" class="btn" style="margin-top: 20px">
+            Proceed to Login
+          </button>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Generate random user ID
-        function generateUserId() {
-            return 'USER' + Math.floor(1000 + Math.random() * 9000);
-        }
+      // Generate random user ID
+      function generateUserId() {
+        return "USER" + Math.floor(1000 + Math.random() * 9000);
+      }
 
-        // Switch between forms
-        document.getElementById('register-btn').addEventListener('click', function() {
-            document.getElementById('home-screen').classList.remove('active-form');
-            document.getElementById('register-form').classList.add('active-form');
+      // Switch between forms - FIXED VERSION
+      document
+        .getElementById("register-btn")
+        .addEventListener("click", function () {
+          document.getElementById("home-screen").style.display = "none";
+          document.getElementById("login-form").classList.remove("active-form");
+          document.getElementById("register-form").classList.add("active-form");
+          document.getElementById("success-message").style.display = "none";
         });
 
-        document.getElementById('login-btn').addEventListener('click', function() {
-            document.getElementById('home-screen').classList.remove('active-form');
-            document.getElementById('login-form').classList.add('active-form');
+      document
+        .getElementById("login-btn")
+        .addEventListener("click", function () {
+          document.getElementById("home-screen").style.display = "none";
+          document
+            .getElementById("register-form")
+            .classList.remove("active-form");
+          document.getElementById("login-form").classList.add("active-form");
+          document.getElementById("success-message").style.display = "none";
         });
 
-        document.getElementById('switch-to-login').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('register-form').classList.remove('active-form');
-            document.getElementById('login-form').classList.add('active-form');
+      document
+        .getElementById("switch-to-login")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document
+            .getElementById("register-form")
+            .classList.remove("active-form");
+          document.getElementById("login-form").classList.add("active-form");
         });
 
-        document.getElementById('switch-to-register').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('login-form').classList.remove('active-form');
-            document.getElementById('register-form').classList.add('active-form');
+      document
+        .getElementById("switch-to-register")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document.getElementById("login-form").classList.remove("active-form");
+          document.getElementById("register-form").classList.add("active-form");
         });
 
-        // Handle form submissions
-        document.getElementById('registration-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Store user data in localStorage
-            const userData = {
-                id: generateUserId(),
-                username: document.getElementById('username').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                address: document.getElementById('address').value,
-                contact: document.getElementById('contact').value
-            };
-            
-            localStorage.setItem('currentUser', JSON.stringify(userData));
-            
-            // Show success message
-            document.getElementById('user-id').textContent = userData.id;
-            document.getElementById('display-username').textContent = userData.username;
-            document.getElementById('display-email').textContent = userData.email;
-            
-            document.getElementById('register-form').classList.remove('active-form');
-            document.getElementById('success-message').style.display = 'block';
+      // Handle form submissions
+      document
+        .getElementById("registration-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Store user data in localStorage
+          const userData = {
+            id: generateUserId(),
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            address: document.getElementById("address").value,
+            contact: document.getElementById("contact").value,
+          };
+
+          localStorage.setItem("currentUser", JSON.stringify(userData));
+
+          // Show success message
+          document.getElementById("user-id").textContent = userData.id;
+          document.getElementById("display-username").textContent =
+            userData.username;
+          document.getElementById("display-email").textContent = userData.email;
+
+          document
+            .getElementById("register-form")
+            .classList.remove("active-form");
+          document.getElementById("success-message").style.display = "block";
         });
 
-        document.getElementById('login-form-data').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            // Simple validation
-            if(email && password) {
-                // In a real app, you'd verify credentials here
-                // For demo, we'll just redirect if fields aren't empty
-                window.location.href = 'services.html';
+      // Login with UserID
+      document
+        .getElementById("login-form-data")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const userId = document.getElementById("login-userid").value;
+          const password = document.getElementById("login-password").value;
+
+          // Simple validation
+          if (userId && password) {
+            // Check if user exists in localStorage
+            const user = JSON.parse(localStorage.getItem("currentUser"));
+            if (user && user.id === userId && user.password === password) {
+              window.location.href = "services.html";
             } else {
-                alert('Please enter both email and password');
+              alert("Invalid User ID or Password");
             }
+          } else {
+            alert("Please enter both User ID and password");
+          }
         });
 
-        // Redirect to login after registration
-        document.getElementById('go-to-login').addEventListener('click', function() {
-            document.getElementById('success-message').style.display = 'none';
-            document.getElementById('login-form').classList.add('active-form');
+      // Redirect to login after registration
+      document
+        .getElementById("go-to-login")
+        .addEventListener("click", function () {
+          document.getElementById("success-message").style.display = "none";
+          document.getElementById("login-form").classList.add("active-form");
         });
 
-        // Check if user is already logged in
-        window.addEventListener('load', function() {
-            if(localStorage.getItem('currentUser')) {
-                // If logged in, redirect to services page
-                window.location.href = 'services.html';
-            }
-        });
+      // Check if user is already logged in
+      window.addEventListener("load", function () {
+        if (localStorage.getItem("currentUser")) {
+          // If logged in, redirect to services page
+          window.location.href = "services.html";
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
