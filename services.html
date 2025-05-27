@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --danger: #f72585;
+            --accent: #7209b7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-menu a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .user-menu a:hover {
+            text-decoration: underline;
+        }
+
+        .user-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .service-content {
+            padding: 20px;
+        }
+
+        .service-content h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .service-content p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .success-message .icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            animation: bounce 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        .booking-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .booking-details p {
+            margin-bottom: 10px;
+        }
+
+        .booking-details span {
+            font-weight: 500;
+        }
+
+        .sub-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sub-service {
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sub-service:hover {
+            background: #e0e0e0;
+        }
+
+        .sub-service.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .sub-services {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ServiceHub</div>
+            <div class="user-menu">
+                <span id="welcome-user">Welcome, User</span>
+                <a href="history.html">View History</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User">
+            </div>
+        </header>
+
+        <h1 style="margin-bottom: 20px; color: var(--dark);">Our Services</h1>
+        
+        <div class="services-grid">
+            <!-- AC & Appliances Repair -->
+            <div class="service-card" data-service="ac">
+                <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YWMlMjByZXBhaXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="AC Repair">
+                <div class="service-content">
+                    <h3>AC & Appliances Repair</h3>
+                    <p>Professional repair services for all your home appliances</p>
+                    <button class="btn book-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- House Cleaning -->
+            <div class="service-card" data-service="cleaning">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG91c2UlMjBjbGVhbmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="House Cleaning">
+                <div class="service-content">
+                    <h3>House Cleaning</h3>
+                    <p>Thorough cleaning services for your home or office</p>
+                    <button class="btn book-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- Vehicle Repair -->
+            <div class="service-card" data-service="vehicle">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FyJTIwcmVwYWlyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Vehicle Repair">
+                <div class="service-content">
+                    <h3>Vehicle Repair</h3>
+                    <p>Expert mechanics for all your vehicle repair needs</p>
+                    <button class="btn book-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- Product Pickup & Drop -->
+            <div class="service-card" data-service="pickup">
+                <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YWMlMjByZXBhaXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Pickup & Drop">
+                <div class="service-content">
+                    <h3>Product Pickup & Drop</h3>
+                    <p>Convenient pickup and drop services for your items</p>
+                    <button class="btn book-btn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Booking Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Book Service</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            
+            <div id="service-form">
+                <div class="form-group">
+                    <label>Select Sub-Service</label>
+                    <div class="sub-services" id="sub-services">
+                        <!-- Sub-services will be added dynamically -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-date">Date/Slot</label>
+                    <input type="date" id="service-date" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-address">Address</label>
+                    <textarea id="service-address" class="form-control" maxlength="100" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-vendor">Vendor</label>
+                    <select id="service-vendor" class="form-control" required>
+                        <option value="">Select Vendor</option>
+                        <!-- Vendors will be added dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-amount">Amount</label>
+                    <input type="text" id="service-amount" class="form-control" readonly>
+                </div>
+                
+                <button type="button" id="confirm-booking" class="btn btn-block">Confirm Booking</button>
+            </div>
+            
+            <div id="booking-success" class="success-message">
+                <div class="icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 style="color: #4CAF50;">Service Booked Successfully!</h2>
+                <div class="booking-details">
+                    <p><span>Service ID:</span> <span id="booking-id"></span></p>
+                    <p><span>Vendor Name:</span> <span id="booking-vendor"></span></p>
+                    <p><span>Date/Slot:</span> <span id="booking-date"></span></p>
+                    <p><span>Service Type:</span> <span id="booking-service"></span></p>
+                </div>
+                <button id="new-booking" class="btn btn-block">Book Another Service</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!user) {
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('welcome-user').textContent = `Welcome, ${user.username}`;
+            }
+        });
+
+        // Service data
+        const services = {
+            ac: {
+                name: 'AC & Appliances Repair',
+                subs: [
+                    { name: 'AC Repair', price: 1200 },
+                    { name: 'TV Repair', price: 800 },
+                    { name: 'Fridge Repair', price: 950 },
+                    { name: 'Washing Machine Repair', price: 1100 }
+                ],
+                vendors: ['CoolTech Services', 'Appliance Masters', 'HomeFix Experts']
+            },
+            cleaning: {
+                name: 'House Cleaning',
+                subs: [
+                    { name: '1BHK', price: 800 },
+                    { name: '2BHK', price: 1200 },
+                    { name: '3BHK', price: 1500 },
+                    { name: 'Bathroom Cleaning', price: 500 }
+                ],
+                vendors: ['CleanPro', 'Sparkle Homes', 'MaidEasy']
+            },
+            vehicle: {
+                name: 'Vehicle Repair',
+                subs: [
+                    { name: '2-Wheeler Repair', price: 600 },
+                    { name: '3-Wheeler Repair', price: 800 },
+                    { name: '4-Wheeler Repair', price: 1200 }
+                ],
+                vendors: ['AutoCare', 'QuickFix Garage', 'Mechanix']
+            },
+            pickup: {
+                name: 'Product Pickup & Drop',
+                subs: [
+                    { name: 'Furniture', price: 500 },
+                    { name: 'Groceries', price: 200 },
+                    { name: 'Electronics', price: 300 },
+                    { name: 'Vehicles', price: 800 }
+                ],
+                vendors: ['QuickCourier', 'SafeTransit', 'FastMove']
+            }
+        };
+
+        // DOM Elements
+        const modal = document.getElementById('serviceModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const bookButtons = document.querySelectorAll('.book-btn');
+        const subServicesContainer = document.getElementById('sub-services');
+        const vendorSelect = document.getElementById('service-vendor');
+        const serviceAmount = document.getElementById('service-amount');
+        const confirmBookingBtn = document.getElementById('confirm-booking');
+        const bookingSuccess = document.getElementById('booking-success');
+        const serviceForm = document.getElementById('service-form');
+        const newBookingBtn = document.getElementById('new-booking');
+
+        // Current booking data
+        let currentService = null;
+        let currentSubService = null;
+
+        // Open modal when service card is clicked
+        bookButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const serviceCard = this.closest('.service-card');
+                const serviceType = serviceCard.dataset.service;
+                openServiceModal(serviceType);
+            });
+        });
+
+        // Open modal with service data
+        function openServiceModal(serviceType) {
+            currentService = services[serviceType];
+            document.getElementById('modal-title').textContent = `Book ${currentService.name}`;
+            
+            // Populate sub-services
+            subServicesContainer.innerHTML = '';
+            currentService.subs.forEach((sub, index) => {
+                const subServiceEl = document.createElement('div');
+                subServiceEl.className = 'sub-service';
+                subServiceEl.textContent = sub.name;
+                subServiceEl.dataset.index = index;
+                subServiceEl.addEventListener('click', function() {
+                    selectSubService(index);
+                });
+                subServicesContainer.appendChild(subServiceEl);
+            });
+            
+            // Populate vendors
+            vendorSelect.innerHTML = '<option value="">Select Vendor</option>';
+            currentService.vendors.forEach(vendor => {
+                const option = document.createElement('option');
+                option.value = vendor;
+                option.textContent = vendor;
+                vendorSelect.appendChild(option);
+            });
+            
+            // Reset form
+            serviceForm.style.display = 'block';
+            bookingSuccess.style.display = 'none';
+            document.getElementById('service-date').value = '';
+            document.getElementById('service-address').value = '';
+            serviceAmount.value = '';
+            currentSubService = null;
+            
+            // Show modal
+            modal.classList.add('active');
+        }
+
+        // Select sub-service
+        function selectSubService(index) {
+            // Remove active class from all
+            document.querySelectorAll('.sub-service').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Add active class to selected
+            document.querySelector(`.sub-service[data-index="${index}"]`).classList.add('active');
+            
+            // Set current sub-service and amount
+            currentSubService = currentService.subs[index];
+            serviceAmount.value = `₹${currentSubService.price}`;
+        }
+
+        // Close modal
+        closeModalBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        // Confirm booking
+        confirmBookingBtn.addEventListener('click', function() {
+            // Validate form
+            if (!currentSubService) {
+                alert('Please select a sub-service');
+                return;
+            }
+            
+            const date = document.getElementById('service-date').value;
+            const address = document.getElementById('service-address').value;
+            const vendor = vendorSelect.value;
+            
+            if (!date || !address || !vendor) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            // Generate random booking ID
+            const bookingId = 'BK' + Math.floor(10000 + Math.random() * 90000);
+            
+            // Show success message
+            document.getElementById('booking-id').textContent = bookingId;
+            document.getElementById('booking-vendor').textContent = vendor;
+            document.getElementById('booking-date').textContent = date;
+            document.getElementById('booking-service').textContent = currentSubService.name;
+            
+            serviceForm.style.display = 'none';
+            bookingSuccess.style.display = 'block';
+            
+            // Store booking in localStorage (for history page)
+            const booking = {
+                id: bookingId,
+                serviceId: 'SRV' + Math.floor(100 + Math.random() * 900),
+                serviceType: currentSubService.name,
+                date: date,
+                vendor: vendor,
+                amount: currentSubService.price,
+                status: 'pending'
+            };
+            
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+        });
+
+        // New booking
+        newBookingBtn.addEventListener('click', function() {
+            serviceForm.style.display = 'block';
+            bookingSuccess.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
